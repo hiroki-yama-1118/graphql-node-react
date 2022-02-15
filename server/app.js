@@ -1,6 +1,15 @@
 const express = require("express");
-const graphqlHTTP = require("express-graphql");
+//{}が必要
+const { graphqlHTTP } = require("express-graphql");
+const mongoose = require("mongoose");
 const app = express();
+
+mongoose.connect(
+  "mongodb+srv://hiroki-yama:Test1234@cluster0.lt9vi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+);
+mongoose.connection.once("open", () => {
+  console.log("db connected");
+});
 
 //一つのエンドポイントでデータのやりとりをするためにミドルウェアを作成
 //第一引数にパス
