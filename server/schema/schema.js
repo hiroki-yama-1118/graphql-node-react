@@ -1,4 +1,5 @@
 const graphql = require("graphql");
+const Movie = require("../models/movie");
 
 const { GraphQLObjectType, GraphQLID, GraphQLString } = graphql;
 
@@ -20,7 +21,13 @@ const RootQuery = new GraphQLObjectType({
       type: MovieType,
       args: { id: { type: GraphQLString } },
       //argsで受け取ったデータを利用してデータを取得する
-      resolve(parents, args) {},
+      resolve(parents, args) {
+        return Movie.findById(args.id);
+      },
     },
   },
+});
+
+module.exports = new GraphQLSchema({
+  query: RootQuery,
 });
