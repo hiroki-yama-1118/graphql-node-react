@@ -8,10 +8,17 @@ import {
   Button,
 } from "reactstrap";
 import { useQuery } from "@apollo/client";
+import { useForm } from "react-hook-form";
 import { DIRECTOR_LIST } from "../queries/queries";
 
 function SideNav() {
   const { data } = useQuery(DIRECTOR_LIST);
+  const { register, handleSubmit, errors } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <div>
       <Card>
@@ -43,13 +50,14 @@ function SideNav() {
       <Card className="mt-4">
         <CardHeader>映画作品</CardHeader>
         <CardBody>
-          <Form>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <FormGroup>
               <input
                 className="form-control"
                 type="text"
                 name="movieName"
                 placeholder="タイトル"
+                {...register("movieName")}
               />
             </FormGroup>
             <FormGroup>
@@ -58,13 +66,22 @@ function SideNav() {
                 type="text"
                 name="movieGenre"
                 placeholder="ジャンル"
+                {...register("movieGenre")}
               />
             </FormGroup>
             <FormGroup>
-              <select className="form-control" type="select" name="directorId">
+              <select
+                className="form-control"
+                type="select"
+                name="directorName"
+                value="directorId"
+                {...register("directorId")}
+              >
                 {data &&
                   data.directors.map(({ id, name }) => (
-                    <option key={id}>{name}</option>
+                    <option key={id} value={id}>
+                      {name}
+                    </option>
                   ))}
               </select>
             </FormGroup>
