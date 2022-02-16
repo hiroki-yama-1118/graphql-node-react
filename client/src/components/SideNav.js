@@ -31,14 +31,16 @@ function SideNav() {
     awaitRefetchQueries: true,
   });
 
-  const onSubmit = ({ movieName, movieGenre, directorId }) => {
+  const onSubmit = ({ movieName, movieGenre, directorId }, e) => {
     console.log(data);
     addMovie({ variables: { name: movieName, genre: movieGenre, directorId } });
+    e.target.reset();
   };
 
-  const onSubmitDirector = ({ directorName, directorAge }) => {
+  const onSubmitDirector = ({ directorName, directorAge }, e) => {
     const IntAge = parseInt(directorAge);
     addDirector({ variables: { name: directorName, age: IntAge } });
+    e.target.reset();
   };
 
   return (
