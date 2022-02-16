@@ -1,10 +1,10 @@
 import React from "react";
-import { Navbar, NavBarBrand } from "reactstrap";
+import { Navbar, NavbarBrand } from "reactstrap";
 
 function Header() {
   return (
     <Navbar color="primary" dark className="mb-4">
-      <NavBarBrand href="/">Movie list</NavBarBrand>
+      <NavbarBrand href="/">Movie list</NavbarBrand>
     </Navbar>
   );
 }
