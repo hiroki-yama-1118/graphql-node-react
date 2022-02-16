@@ -3,7 +3,10 @@ const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const mongoose = require("mongoose");
 const schema = require("./schema/schema");
+const cors = require("cors");
 const app = express();
+
+app.use(cors());
 
 mongoose.connect(
   "mongodb+srv://hiroki-yama:Test1234@cluster0.lt9vi.mongodb.net/test?retryWrites=true&w=majority"
