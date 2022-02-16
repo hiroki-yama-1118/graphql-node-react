@@ -7,16 +7,18 @@ import {
   FormGroup,
   Button,
 } from "reactstrap";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import { DIRECTOR_LIST } from "../queries/queries";
+import { DIRECTOR_LIST, ADD_MOVIE } from "../queries/queries";
 
 function SideNav() {
   const { data } = useQuery(DIRECTOR_LIST);
   const { register, handleSubmit, errors } = useForm();
+  const [addMovie] = useMutation(ADD_MOVIE);
 
-  const onSubmit = (data) => {
+  const onSubmit = ({ movieName, movieGenre, directorId }) => {
     console.log(data);
+    addMovie({ variables: { name: movieName, genre: movieGenre, directorId } });
   };
 
   return (
