@@ -1,5 +1,6 @@
 const graphql = require("graphql");
 const Movie = require("../models/movie");
+const Director = require("../models/director");
 
 const {
   GraphQLObjectType,
@@ -60,6 +61,20 @@ const Mutation = new GraphQLObjectType({
           genre: args.genre,
         });
         return movie.save();
+      },
+    },
+    addDirector: {
+      type: DirectorType,
+      args: {
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+      },
+      resolve(parent, args) {
+        let director = new Director({
+          name: args.name,
+          age: args.age,
+        });
+        return director.save();
       },
     },
   },
