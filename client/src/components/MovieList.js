@@ -23,11 +23,11 @@ const MovieList = () => {
               </tr>
             </thead>
             <tbody>
-              {data.movies.map(({ id, name, genre, dirctor }) => (
+              {data.movies.map(({ id, name, genre, director }) => (
                 <tr key={id}>
                   <td>{name}</td>
                   <td>{genre}</td>
-                  <td>{dirctor}</td>
+                  <td>{director.name}</td>
                 </tr>
               ))}
             </tbody>
