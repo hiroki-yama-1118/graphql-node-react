@@ -82,6 +82,7 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
+    //映画を追加
     addMovie: {
       type: MovieType,
       args: {
@@ -98,6 +99,7 @@ const Mutation = new GraphQLObjectType({
         return movie.save();
       },
     },
+    //監督情報を追加
     addDirector: {
       type: DirectorType,
       args: {
@@ -112,6 +114,7 @@ const Mutation = new GraphQLObjectType({
         return director.save();
       },
     },
+    //監督情報を更新
     updateDirector: {
       type: DirectorType,
       args: {
@@ -128,6 +131,7 @@ const Mutation = new GraphQLObjectType({
         });
       },
     },
+    //映画情報を更新
     updateMovie: {
       type: MovieType,
       args: {
@@ -143,6 +147,26 @@ const Mutation = new GraphQLObjectType({
         return Movie.findByIdAndUpdate(args.id, updateMovie, {
           new: true,
         });
+      },
+    },
+    //映画を削除
+    deleteMovie: {
+      type: MovieType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return Movie.findByIdAndRemove(args.id);
+      },
+    },
+    //監督を削除
+    deleteDirector: {
+      type: DirectorType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return Director.findByIdAndRemove(args.id);
       },
     },
   },
