@@ -1,11 +1,19 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
-import { MOVIE_LIST } from "../queries/queries";
+import { useQuery, useMutation } from "@apollo/client";
+import { MOVIE_LIST, DELETE_MOVIE } from "../queries/queries";
 
-import { Card, CardBody, Table } from "reactstrap";
+import { Card, CardBody, Table, Button } from "reactstrap";
 
 const MovieList = () => {
   const { loading, error, data } = useQuery(MOVIE_LIST);
+  const [deleteMutation] = useMutation(DELETE_MOVIE, {
+    refetchQueries: [{ query: MOVIE_LIST }],
+    awaitRefetchQueries: true,
+  });
+  const handleDeleteMovie = (id) => {
+    console.log(id);
+    deleteMutation({ variables: { id } });
+  };
   if (loading) {
     return <p>Loading...</p>;
   } else if (error) {
@@ -19,7 +27,7 @@ const MovieList = () => {
               <tr>
                 <th>タイトル</th>
                 <th>ジャンル</th>
-                <th>監督</th>
+                <th colSpan={2}>監督</th>
               </tr>
             </thead>
             <tbody>
@@ -28,6 +36,14 @@ const MovieList = () => {
                   <td>{name}</td>
                   <td>{genre}</td>
                   <td>{director.name}</td>
+                  <td>
+                    <Button
+                      color="primary"
+                      onClick={() => handleDeleteMovie(id)}
+                    >
+                      削除
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
