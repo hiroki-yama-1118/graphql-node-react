@@ -3,6 +3,6 @@ const Schema = mongoose.Schema;
 
 const directorSchema = new Schema({
   name: String,
-  genre: Number,
+  age: Number,
 });
 module.exports = mongoose.model("Director", directorSchema);
