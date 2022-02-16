@@ -1,7 +1,13 @@
 const graphql = require("graphql");
 const Movie = require("../models/movie");
 
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLInt,
+} = graphql;
 
 //オブジェクト生成
 const MovieType = new GraphQLObjectType({
@@ -10,6 +16,16 @@ const MovieType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     genre: { type: GraphQLString },
+  }),
+});
+
+//映画監督の情報
+const DirectorType = new GraphQLObjectType({
+  name: "Director",
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    age: { type: GraphQLInt },
   }),
 });
 
