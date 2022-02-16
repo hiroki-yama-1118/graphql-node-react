@@ -1,7 +1,7 @@
 const graphql = require("graphql");
 const Movie = require("../models/movie");
 
-const { GraphQLObjectType, GraphQLID, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema } = graphql;
 
 //オブジェクト生成
 const MovieType = new GraphQLObjectType({
@@ -15,7 +15,7 @@ const MovieType = new GraphQLObjectType({
 
 //外部からMovieTypeのデータを取得するため
 const RootQuery = new GraphQLObjectType({
-  name: "RoorQueryType",
+  name: "RootQueryType",
   fields: {
     movie: {
       type: MovieType,
