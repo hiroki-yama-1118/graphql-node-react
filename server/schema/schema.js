@@ -9,6 +9,7 @@ const {
   GraphQLSchema,
   GraphQLInt,
   GraphQLList,
+  GraphQLNonNull,
 } = graphql;
 
 //オブジェクト生成
@@ -109,6 +110,39 @@ const Mutation = new GraphQLObjectType({
           age: args.age,
         });
         return director.save();
+      },
+    },
+    updateDirector: {
+      type: DirectorType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+      },
+      resolve(parent, args) {
+        let updateDirector = {};
+        args.name && (updateDirector.name = args.name);
+        args.age && (updateDirector.age = args.age);
+        return Director.findByIdAndUpdate(args.id, updateDirector, {
+          new: true,
+        });
+      },
+    },
+    updateMovie: {
+      type: MovieType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        genre: { type: GraphQLString },
+      },
+      resolve(parent, args) {
+        let updateMovie = {};
+        args.name && (updateMovie.name = args.name);
+        args.genre && (updateMovie.genre = args.genre);
+        args.directorId && (updateMovie.directorId = args.directorId);
+        return Movie.findByIdAndUpdate(args.id, updateMovie, {
+          new: true,
+        });
       },
     },
   },
