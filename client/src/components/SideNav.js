@@ -9,16 +9,36 @@ import {
 } from "reactstrap";
 import { useQuery, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import { DIRECTOR_LIST, ADD_MOVIE } from "../queries/queries";
+import {
+  DIRECTOR_LIST,
+  ADD_MOVIE,
+  MOVIE_LIST,
+  ADD_DIRECTOR,
+} from "../queries/queries";
 
 function SideNav() {
   const { data } = useQuery(DIRECTOR_LIST);
-  const { register, handleSubmit, errors } = useForm();
-  const [addMovie] = useMutation(ADD_MOVIE);
+  const { register, handleSubmit } = useForm();
+  const { register: registerDirector, handleSubmit: handleSubmitDirector } =
+    useForm();
+  //refetch機能の追加
+  const [addMovie] = useMutation(ADD_MOVIE, {
+    refetchQueries: [{ query: MOVIE_LIST }],
+    awaitRefetchQueries: true,
+  });
+  const [addDirector] = useMutation(ADD_DIRECTOR, {
+    refetchQueries: [{ query: DIRECTOR_LIST }],
+    awaitRefetchQueries: true,
+  });
 
   const onSubmit = ({ movieName, movieGenre, directorId }) => {
     console.log(data);
     addMovie({ variables: { name: movieName, genre: movieGenre, directorId } });
+  };
+
+  const onSubmitDirector = ({ directorName, directorAge }) => {
+    const IntAge = parseInt(directorAge);
+    addDirector({ variables: { name: directorName, age: IntAge } });
   };
 
   return (
@@ -26,13 +46,14 @@ function SideNav() {
       <Card>
         <CardHeader>映画監督</CardHeader>
         <CardBody>
-          <Form>
+          <Form onSubmit={handleSubmitDirector(onSubmitDirector)}>
             <FormGroup>
               <input
                 className="form-control"
                 type="text"
                 name="directorName"
                 placeholder="監督名"
+                {...registerDirector("directorName")}
               />
             </FormGroup>
             <FormGroup>
@@ -41,6 +62,7 @@ function SideNav() {
                 type="number"
                 name="directorAge"
                 placeholder="年齢"
+                {...registerDirector("directorAge")}
               />
             </FormGroup>
             <Button color="primary" type="submit">
@@ -76,7 +98,6 @@ function SideNav() {
                 className="form-control"
                 type="select"
                 name="directorName"
-                value="directorId"
                 {...register("directorId")}
               >
                 {data &&
