@@ -8,6 +8,7 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLInt,
+  GraphQLList,
 } = graphql;
 
 //オブジェクト生成
@@ -17,6 +18,12 @@ const MovieType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     genre: { type: GraphQLString },
+    director: {
+      type: DirectorType,
+      resolve(parent, args) {
+        return Director.findById(parent.directorId);
+      },
+    },
   }),
 });
 
@@ -27,6 +34,12 @@ const DirectorType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
+    movies: {
+      type: new GraphQLList(MovieType),
+      resolve(parent, args) {
+        return Movie.find({ directorId: parent.id });
+      },
+    },
   }),
 });
 
