@@ -20,3 +20,12 @@ export const DIRECTOR_LIST = gql`
     }
   }
 `;
+
+export const ADD_MOVIE = gql`
+  mutation ($name: String!, $genre: String!, $directorId: ID!) {
+    addMovie(name: $name, genre: $genre, directorId: $directorId) {
+      name
+      genre
+    }
+  }
+`;
