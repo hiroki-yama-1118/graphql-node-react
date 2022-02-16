@@ -36,10 +36,17 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     movie: {
       type: MovieType,
-      args: { id: { type: GraphQLString } },
+      args: { id: { type: GraphQLID } },
       //argsで受け取ったデータを利用してデータを取得する
       resolve(parents, args) {
         return Movie.findById(args.id);
+      },
+    },
+    director: {
+      type: DirectorType,
+      args: { id: { type: GraphQLID } },
+      resolve(parents, args) {
+        return Director.findById(args.id);
       },
     },
   },
